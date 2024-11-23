@@ -1,10 +1,10 @@
 name: APK to EXE Converter
 
 on:
-  workflow_dispatch: # Manually trigger the workflow
+  workflow_dispatch:  # Manually trigger the workflow
   push:
     paths:
-      - '*.apk'  # Automatically trigger on new APK uploads
+      - '*.apk'  # Automatically trigger on APK upload
 
 jobs:
   convert:
