@@ -1,54 +1,42 @@
-name: APK to EXE Converter
+name: APK to EXE Converter Workflow
 
 on:
-  workflow_dispatch:  # Manually trigger the workflow
   push:
-    paths:
-      - '*.apk'  # Automatically trigger on APK upload
+    branches:
+      - main
 
 jobs:
-  convert:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Set Up Python
+    - name: Install Python and Dependencies
       uses: actions/setup-python@v4
       with:
-        python-version: 3.x
+        python-version: '3.9'
 
-    - name: Install Dependencies
+    - name: Install Required Packages
       run: |
+        pip install flask pyinstaller
         sudo apt-get update
-        sudo apt-get install -y scrcpy zip
+        sudo apt-get install -y scrcpy
 
-    - name: Install PyInstaller
+    - name: Run the Flask App
       run: |
-        pip install pyinstaller
+        nohup python app.py &
+        sleep 10  # Ensure the app has started before any frontend requests
 
-    - name: Convert APK to EXE Wrapper
+    - name: Convert APK to EXE
       run: |
-        apk_file=$(ls *.apk)
-        echo "APK file detected: $apk_file"
+        # Use a sample APK file for testing
+        curl -O https://example.com/sample.apk
+        curl -X POST -F "file=@sample.apk" http://127.0.0.1:5000/upload --output converted.exe
 
-        # Create the Python wrapper script dynamically
-        echo "import subprocess" > wrapper.py
-        echo "def install_apk():\n    subprocess.run(['scrcpy', '--install', '$apk_file'])\ninstall_apk()" >> wrapper.py
-
-        # Package the wrapper into an EXE using PyInstaller
-        pyinstaller --onefile --noconsole wrapper.py
-
-        # Move the EXE to the output folder
-        mv dist/wrapper.exe output.apk-to-exe.exe
-
-    - name: Upload Converted EXE File
+    - name: Upload Converted File
       uses: actions/upload-artifact@v3
       with:
-        name: apk-to-exe
-        path: output.apk-to-exe.exe
-
-    - name: Clean Up
-      run: |
-        rm -rf dist build wrapper.py
+        name: converted-exe
+        path: converted.exe
