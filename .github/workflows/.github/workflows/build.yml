@@ -1,0 +1,54 @@
+name: APK to EXE Converter
+
+on:
+  workflow_dispatch: # Manually trigger the workflow
+  push:
+    paths:
+      - '*.apk'  # Automatically trigger on new APK uploads
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set Up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.x
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y scrcpy zip
+
+    - name: Install PyInstaller
+      run: |
+        pip install pyinstaller
+
+    - name: Convert APK to EXE Wrapper
+      run: |
+        apk_file=$(ls *.apk)
+        echo "APK file detected: $apk_file"
+
+        # Create the Python wrapper script dynamically
+        echo "import subprocess" > wrapper.py
+        echo "def install_apk():\n    subprocess.run(['scrcpy', '--install', '$apk_file'])\ninstall_apk()" >> wrapper.py
+
+        # Package the wrapper into an EXE using PyInstaller
+        pyinstaller --onefile --noconsole wrapper.py
+
+        # Move the EXE to the output folder
+        mv dist/wrapper.exe output.apk-to-exe.exe
+
+    - name: Upload Converted EXE File
+      uses: actions/upload-artifact@v3
+      with:
+        name: apk-to-exe
+        path: output.apk-to-exe.exe
+
+    - name: Clean Up
+      run: |
+        rm -rf dist build wrapper.py
