@@ -4,57 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>APK to EXE Converter</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #4facfe, #00f2fe);
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-    }
-    p {
-      font-size: 1.1em;
-      line-height: 1.6;
-    }
-    .button {
-      display: inline-block;
-      background: #00f2fe;
-      color: #fff;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 1.2em;
-      margin: 10px 0;
-      transition: background 0.3s;
-    }
-    .button:hover {
-      background: #4facfe;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <h1>APK to EXE Converter</h1>
-    <p>
-      Upload your APK file, and our system will automatically generate an EXE wrapper for it.
-      The EXE file will be available to download from the **Actions tab** of the repository.
-    </p>
-    <a href="https://github.com/yourusername/apk-to-exe-converter" class="button">Visit GitHub Repository</a>
-    <p>
-      After uploading, visit the <a href="https://github.com/yourusername/apk-to-exe-converter/actions">Actions tab</a> to download the EXE wrapper.
-    </p>
+    <p>Upload your APK file, and our system will automatically generate an EXE wrapper for it.</p>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label for="apkFile" class="upload-btn">
+        Choose APK File
+        <input type="file" id="apkFile" name="apkFile" accept=".apk" required />
+      </label>
+      <button type="submit" class="submit-btn">Convert APK to EXE</button>
+    </form>
+    <p id="statusMessage"></p>
+    <p id="downloadLink" style="display:none;">Download your EXE from the <a href="" target="_blank">Actions tab</a>.</p>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
