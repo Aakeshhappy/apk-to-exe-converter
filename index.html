@@ -3,25 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>APK to EXE Converter</title>
+  <title>APK & XAPK to EXE Converter</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>APK to EXE Converter</h1>
-    <p>Upload your APK file, and our system will automatically generate an EXE wrapper for it.</p>
+    <h1>APK & XAPK to EXE Converter</h1>
+    <p>Upload your APK or XAPK file, and download your EXE file directly!</p>
     <form id="uploadForm" enctype="multipart/form-data">
       <label for="apkFile" class="upload-btn">
-        Choose APK File
-        <input type="file" id="apkFile" name="apkFile" accept=".apk" required />
+        Choose APK or XAPK File
+        <input type="file" id="apkFile" name="apkFile" accept=".apk, .xapk" required />
       </label>
-      <button type="submit" class="submit-btn">Convert APK to EXE</button>
+      <button type="submit" class="submit-btn">Convert to EXE</button>
     </form>
     <p id="statusMessage"></p>
-    <p id="downloadLink" style="display:none;">Download your EXE from the <a href="" target="_blank">Actions tab</a>.</p>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
-
